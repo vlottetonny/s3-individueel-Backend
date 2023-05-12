@@ -1,7 +1,4 @@
-import Grocery from "../models/grocery.model";
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
+/*import Grocery from "../models/grocery.model";
 
 export class GroceryService {
     async getGroceryById(groceryId: number): Promise<Grocery | null> {
@@ -17,4 +14,4 @@ export class GroceryService {
         }
         return null;
     }
-}
+}*/

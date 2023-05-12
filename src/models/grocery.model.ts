@@ -1,6 +1,7 @@
-export default interface Grocery {
-    groceryId?: number;
+export interface grocery {
+    id: number;
     inBasket: boolean;
     groceryText: string;
     grocerySubText: string;
 }
+
