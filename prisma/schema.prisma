@@ -5,6 +5,7 @@ generator client {
 datasource db {
   provider = "sqlserver"
   url      = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model grocery_item {
@@ -22,12 +23,15 @@ model grocery_list {
   household_id Int?
   bought_date  DateTime? @db.DateTime
   items        grocery_item[]
+  household    household? @relation(fields: [household_id], references: [id])
 }
 
 model household {
   id                   Int     @id(map: "PK__househol__3213E83FA6F3CB5E") @default(autoincrement())
   name                 String? @db.VarChar(20)
   household_creator_id Int?
+  members              user_account[]
+  grocery_lists        grocery_list[]
 }
 
 model user_account {
@@ -37,4 +41,5 @@ model user_account {
   last_name    String? @db.VarChar(20)
   password     String? @db.VarChar(50)
   household_id Int?
+  household    household? @relation(fields: [household_id], references: [id])
 }
