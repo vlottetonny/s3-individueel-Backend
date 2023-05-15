@@ -21,3 +21,30 @@ export async function addGroceryItem(groceryItem: any): Promise<void>{
         throw new Error("Failed to add grocery item.");
     }
 }
+
+export async function deleteGroceryItemByID(id: number): Promise<void>{
+    try {
+        await prisma.grocery_item.delete({
+            where: {
+                id: id
+            }
+        })
+    } catch (error) {
+        console.error("groceryItem.repository.ts: Failed to delete grocery item.");
+        throw new Error("Failed to delete grocery item.");
+    }
+}
+
+export async function updateGroceryItemByID(id: number, groceryItem: any): Promise<void>{
+    try {
+        await prisma.grocery_item.update({
+            where: {
+                id: id
+            },
+            data: groceryItem
+        })
+    } catch (error) {
+        console.error("groceryItem.repository.ts: Failed to update grocery item.");
+        throw new Error("Failed to update grocery item.");
+    }
+}

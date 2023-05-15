@@ -16,3 +16,36 @@ export const getUserByID = async (req: Request, res: Response) => {
     }
 };
 
+export const addUser = async (req: Request, res: Response) => {
+    try {
+        const user = req.body;
+        await UserService.addUser(user);
+        res.status(201).send("User added successfully");
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Internal server error");
+    }
+}
+
+export const deleteUserByID = async (req: Request, res: Response) => {
+    try {
+        const userID = Number(req.params.id);
+        await UserService.deleteUserByID(userID);
+        res.status(200).send("User deleted successfully");
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Internal server error");
+    }
+}
+
+export const updateUserByID = async (req: Request, res: Response) => {
+    try {
+        const userID = Number(req.params.id);
+        const user = req.body;
+        await UserService.updateUserByID(userID, user);
+        res.status(200).send("User updated successfully");
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Internal server error");
+    }
+}

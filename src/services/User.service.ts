@@ -6,3 +6,30 @@ export async function getUserByID(id: number): Promise<user_account | null> {
     return user;
 }
 
+export async function addUser(user: any): Promise<void>{
+    try {
+        await UserRepository.addUser(user);
+    } catch (error) {
+        console.error("User.service.ts: Failed to add user.");
+        throw new Error("Failed to add user.");
+    }
+}
+
+export async function deleteUserByID(id: number): Promise<void>{
+    try {
+        await UserRepository.deleteUserByID(id);
+    } catch (error) {
+        console.error("User.service.ts: Failed to delete user.");
+        throw new Error("Failed to delete user.");
+    }
+}
+
+export async function updateUserByID(id: number, user: any): Promise<void>{
+    try {
+        await UserRepository.updateUserByID(id, user);
+    } catch (error) {
+        console.error("User.service.ts: Failed to update user.");
+        throw new Error("Failed to update user.");
+    }
+}
+

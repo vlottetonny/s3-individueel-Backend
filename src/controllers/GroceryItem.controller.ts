@@ -27,3 +27,25 @@ export const addGroceryItem = async (req: Request, res: Response) => {
     }
 }
 
+export const deleteGroceryItemByID = async (req: Request, res: Response) => {
+    try {
+        const groceryItemID = Number(req.params.id);
+        await GroceryItemService.deleteGroceryItemByID(groceryItemID);
+        res.status(200).send("Grocery item deleted successfully");
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Internal server error");
+    }
+}
+
+export const updateGroceryItemByID = async (req: Request, res: Response) => {
+    try {
+        const groceryItemID = Number(req.params.id);
+        const groceryItem = req.body;
+        await GroceryItemService.updateGroceryItemByID(groceryItemID, groceryItem);
+        res.status(200).send("Grocery item updated successfully");
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Internal server error");
+    }
+}
