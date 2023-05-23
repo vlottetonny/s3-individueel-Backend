@@ -49,3 +49,18 @@ export const updateUserByID = async (req: Request, res: Response) => {
         res.status(500).send("Internal server error");
     }
 }
+
+export const loginUser = async (req: Request, res: Response) => {
+    try {
+        const user = req.body;
+        const userToken = await UserService.loginUser(user);
+        if (userToken) {
+            res.status(200).json(userToken);
+        } else {
+            res.status(404).send("User not found");
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Internal server error");
+    }
+}

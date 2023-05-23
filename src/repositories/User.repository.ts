@@ -50,4 +50,19 @@ export async function updateUserByID( id: number, user: any ): Promise<void>{
     }
 }
 
+export async function loginUser( credentials: any ) {
+    const user = await prisma.user_account.findFirst({
+        where: {
+            username: credentials.username,
+            password: credentials.password
+        },
+        select: {
+            id: true
+        }
+    })
+    console.log(user);
+    console.log("success")
+    return user?.id || null;
+}
+
 
