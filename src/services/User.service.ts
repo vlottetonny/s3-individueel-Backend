@@ -33,7 +33,8 @@ export async function updateUserByID(id: number, user: any): Promise<void>{
     }
 }
 
-export async function loginUser(user: any): Promise<user_account | null> {
-    const userToken = await UserRepository.loginUser(user);
+export async function loginUser(user: any): Promise<string | null> {
+    const userId = await UserRepository.loginUser(user);
+    const userToken = "tempToken"
     return userToken;
 }
