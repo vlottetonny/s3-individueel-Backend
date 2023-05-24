@@ -15,6 +15,7 @@ export async function addUser( user: any ): Promise<void>{
     try {
         await prisma.user_account.create({
             data: user
+
         })
     } catch (error) {
         console.error("user.repository.ts: Failed to add user.");
@@ -60,9 +61,7 @@ export async function loginUser( credentials: any ) {
             id: true
         }
     })
-    console.log(user);
-    console.log("success")
-    return user?.id || null;
+    return user || null;
 }
 
 

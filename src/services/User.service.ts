@@ -1,6 +1,8 @@
 import * as UserRepository from '../repositories/User.repository';
 import {user_account} from "@prisma/client";
 
+const jwt = require('jsonwebtoken');
+
 export async function getUserByID(id: number): Promise<user_account | null> {
     const user = await UserRepository.getUserByID(id);
     return user;
@@ -33,8 +35,18 @@ export async function updateUserByID(id: number, user: any): Promise<void>{
     }
 }
 
-export async function loginUser(user: any): Promise<string | null> {
-    const userId = await UserRepository.loginUser(user);
-    const userToken = "tempToken"
-    return userToken;
+export async function loginUser(user: any): Promise<any | null> {
+    const payload = await UserRepository.loginUser(user);
+    let success: boolean;
+    if (payload === null) {
+        success = false;
+    }
+    else {
+        success = true;
+    }
+    const userId = payload?.id || null;
+    const authToken = jwt.sign(payload, process.env.JWT_SECRET);
+    const loginResponse = {success, userId, authToken};
+    console.log(loginResponse);
+    return loginResponse;
 }

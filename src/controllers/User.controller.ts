@@ -51,11 +51,12 @@ export const updateUserByID = async (req: Request, res: Response) => {
 }
 
 export const loginUser = async (req: Request, res: Response) => {
+    console.log(req.body)
     try {
         const user = req.body;
-        const userToken = await UserService.loginUser(user);
-        if (userToken) {
-            res.status(200).json(userToken);
+        const loginResponse = await UserService.loginUser(user);
+        if (loginResponse) {
+            res.status(200).json(loginResponse);
         } else {
             res.status(404).send("User not found");
         }
