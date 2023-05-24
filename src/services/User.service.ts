@@ -1,4 +1,5 @@
 import * as UserRepository from '../repositories/User.repository';
+import * as groceryListRepository from '../repositories/GroceryList.repository';
 import {user_account} from "@prisma/client";
 
 const jwt = require('jsonwebtoken');
@@ -46,7 +47,8 @@ export async function loginUser(user: any): Promise<any | null> {
     }
     const userId = payload?.id || null;
     const authToken = jwt.sign(payload, process.env.JWT_SECRET);
-    const loginResponse = {success, userId, authToken};
+    const currentGroceryListId = await groceryListRepository.getCurrentGroceryListId(userId)
+    const loginResponse = {success, userId, authToken, currentGroceryListId};
     console.log(loginResponse);
     return loginResponse;
 }
