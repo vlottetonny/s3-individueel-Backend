@@ -9,13 +9,8 @@ export async function getUserByID(id: number): Promise<user_account | null> {
     return user;
 }
 
-export async function addUser(user: any): Promise<void>{
-    try {
-        await UserRepository.addUser(user);
-    } catch (error) {
-        console.error("User.service.ts: Failed to add user.");
-        throw new Error("Failed to add user.");
-    }
+export async function addUser(user: any){
+    return await UserRepository.addUser(user);
 }
 
 export async function deleteUserByID(id: number): Promise<void>{

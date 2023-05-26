@@ -11,16 +11,17 @@ export async function getUserByID( id: number ) {
     return user;
 }
 
-export async function addUser( user: any ): Promise<void>{
+export async function addUser( user: any ){
     try {
         await prisma.user_account.create({
             data: user
-
         })
     } catch (error) {
         console.error("user.repository.ts: Failed to add user.");
         throw new Error("Failed to add user.");
+        return false;
     }
+    return true;
 }
 
 export async function deleteUserByID( id: number ): Promise<void>{
