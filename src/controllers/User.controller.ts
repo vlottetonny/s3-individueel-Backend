@@ -17,10 +17,15 @@ export const getUserByID = async (req: Request, res: Response) => {
 };
 
 export const addUser = async (req: Request, res: Response) => {
+    console.log(req.body);
     try {
         const user = req.body;
-        await UserService.addUser(user);
-        res.status(201).send("User added successfully");
+        const signupResponse = await UserService.addUser(user);
+        if (signupResponse) {
+            res.status(201).send(signupResponse);
+        } else {
+            res.status(500).send("No response from database");
+        }
     } catch (error) {
         console.error(error);
         res.status(500).send("Internal server error");
