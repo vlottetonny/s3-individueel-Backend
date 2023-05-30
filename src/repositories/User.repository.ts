@@ -11,6 +11,15 @@ export async function getUserByID( id: number ) {
     return user;
 }
 
+export async function getHouseholdIDByUserID( id: number ) {
+    const user = await prisma.user_account.findUnique({
+        where: {
+            id: id
+        }
+    })
+    return user?.household_id;
+}
+
 export async function addUser( user: any ){
     try {
         await prisma.user_account.create({
@@ -58,9 +67,6 @@ export async function loginUser( credentials: any ) {
             username: credentials.username,
             password: credentials.password
         },
-        select: {
-            id: true
-        }
     })
     return user || null;
 }

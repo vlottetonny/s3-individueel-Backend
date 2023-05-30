@@ -42,8 +42,12 @@ export async function loginUser(user: any): Promise<any | null> {
     }
     const userId = payload?.id || null;
     const authToken = jwt.sign(payload, process.env.JWT_SECRET);
-    const currentGroceryListId = await GroceryListRepository.getCurrentGroceryListId(userId)
-    const loginResponse = {success, userId, authToken, currentGroceryListId};
+    const currentGroceryListId = await GroceryListRepository.getCurrentGroceryListId(userId);
+    let householdId = null; // Declare householdId and initialize it with null
+    if (userId !== null) {
+        householdId = await UserRepository.getHouseholdIDByUserID(userId);
+    }
+    const loginResponse = { success, userId, authToken, currentGroceryListId, householdId };
     console.log(loginResponse);
     return loginResponse;
 }
