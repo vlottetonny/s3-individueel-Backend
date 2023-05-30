@@ -70,3 +70,17 @@ export const loginUser = async (req: Request, res: Response) => {
         res.status(500).send("Internal server error");
     }
 }
+
+export const updateUserHouseholdID = async (req: Request, res: Response) => {
+    console.log(req.body)
+    try {
+        const userID = Number(req.params.id);
+        const name = String(req.body.name);
+        const password = String(req.body.password);
+        await UserService.updateUserHouseholdID(userID, name, password);
+        res.status(200).send("User householdID updated successfully");
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Internal server error");
+    }
+}

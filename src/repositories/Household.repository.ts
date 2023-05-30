@@ -51,3 +51,16 @@ export async function updateHouseholdByID(id: number, household: any): Promise<v
         throw new Error("Failed to update household.");
     }
 }
+
+export async function getHouseholdByCredentials(credentials: any) {
+    const household = await prisma.household.findFirst({
+        where: {
+            username: credentials.username,
+            password: credentials.password
+        },
+        select: {
+            id: true
+        }
+    });
+    return household || null;
+}

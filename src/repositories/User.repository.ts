@@ -65,4 +65,21 @@ export async function loginUser( credentials: any ) {
     return user || null;
 }
 
+export async function updateUserHouseholdID( id: number, householdId: number ){
+    try {
+        await prisma.user_account.update({
+            where: {
+                id: id
+            },
+            data: {
+                household_id: householdId
+            }
+        })
+    } catch (error) {
+        console.error("user.repository.ts: Failed to add user to household.");
+        throw new Error("Failed to add user to household.");
+        return false;
+    }
+    return true;
+}
 

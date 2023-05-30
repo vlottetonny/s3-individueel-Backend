@@ -3,43 +3,45 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlserver"
-  url      = env("DATABASE_URL")
+  provider          = "sqlserver"
+  url               = env("DATABASE_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model grocery_item {
-  id              Int      @id(map: "PK__grocery___3213E83F4604C6B2") @default(autoincrement())
-  main_text       String?  @db.VarChar(256)
-  sub_text        String?  @db.VarChar(256)
-  in_basket       Boolean? @default(false, map: "DF__grocery_i__in_ba__619B8048")
+  id              Int           @id(map: "PK__grocery___3213E83F4604C6B2") @default(autoincrement())
+  main_text       String?       @db.VarChar(256)
+  sub_text        String?       @db.VarChar(256)
+  in_basket       Boolean?      @default(false, map: "DF__grocery_i__in_ba__619B8048")
   added_by_id     Int?
   grocery_list_id Int?
   grocery_list    grocery_list? @relation(fields: [grocery_list_id], references: [id])
 }
+
 model grocery_list {
-  id           Int       @id(map: "PK__grocery___3213E83F918E6DE2") @default(autoincrement())
-  is_bought    Boolean?  @default(false, map: "DF__grocery_l__is_bo__6477ECF3")
+  id           Int            @id(map: "PK__grocery___3213E83F918E6DE2") @default(autoincrement())
+  is_bought    Boolean?       @default(false, map: "DF__grocery_l__is_bo__6477ECF3")
   household_id Int?
-  bought_date  DateTime? @db.DateTime
+  bought_date  DateTime?      @db.DateTime
   items        grocery_item[]
-  household    household? @relation(fields: [household_id], references: [id])
+  household    household?     @relation(fields: [household_id], references: [id])
 }
 
 model household {
-  id                   Int     @id(map: "PK__househol__3213E83FA6F3CB5E") @default(autoincrement())
-  name                 String? @db.VarChar(20)
+  id                   Int            @id(map: "PK__househol__3213E83FA6F3CB5E") @default(autoincrement())
+  name                 String?        @db.VarChar(20)
   household_creator_id Int?
-  members              user_account[]
+  password             String?        @db.VarChar(256)
   grocery_lists        grocery_list[]
+  members              user_account[]
 }
 
 model user_account {
-  id           Int     @id(map: "PK__user_acc__3213E83F348E6092") @default(autoincrement())
-  username     String? @db.VarChar(20)
-  first_name   String? @db.VarChar(20)
-  last_name    String? @db.VarChar(20)
-  password     String? @db.VarChar(50)
+  id           Int        @id(map: "PK__user_acc__3213E83F348E6092") @default(autoincrement())
+  username     String?    @db.VarChar(20)
+  first_name   String?    @db.VarChar(20)
+  last_name    String?    @db.VarChar(20)
+  password     String?    @db.VarChar(256)
   household_id Int?
   household    household? @relation(fields: [household_id], references: [id])
 }

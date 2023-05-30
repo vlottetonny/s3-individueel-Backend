@@ -8,5 +8,6 @@ router.post("/add", UserController.addUser)
 router.delete("/delete/:id", UserController.deleteUserByID)
 router.put("/update/:id", UserController.updateUserByID)
 router.post("/login", UserController.loginUser)
+router.put("/addtohousehold/:id", UserController.updateUserHouseholdID)
 
 export default router;
