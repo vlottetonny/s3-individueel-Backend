@@ -6,8 +6,7 @@ import {user_account} from "@prisma/client";
 const jwt = require('jsonwebtoken');
 
 export async function getUserByID(id: number): Promise<user_account | null> {
-    const user = await UserRepository.getUserByID(id);
-    return user;
+    return await UserRepository.getUserByID(id);
 }
 
 export async function addUser(user: any){
@@ -35,19 +34,18 @@ export async function updateUserByID(id: number, user: any): Promise<void>{
 export async function loginUser(user: any): Promise<any | null> {
     const payload = await UserRepository.loginUser(user);
     let success: boolean;
-    if (payload === null) {
-        success = false;
-    } else {
-        success = true;
-    }
+    success = payload !== null;
     const userId = payload?.id || null;
     const authToken = jwt.sign(payload, process.env.JWT_SECRET);
-    const currentGroceryListId = await GroceryListRepository.getCurrentGroceryListId(userId);
-    let householdId = null; // Declare householdId and initialize it with null
+    let householdId = null;
+    let currentGroceryListId = null;
     console.log("userId: " + userId)
     if (userId !== null) {
         householdId = await UserRepository.getHouseholdIDByUserID(userId);
         console.log("householdId: " + householdId)
+        if (householdId !== null) {
+            currentGroceryListId = await GroceryListRepository.getCurrentGroceryListId(householdId);
+        }
     }
     const loginResponse = { success, userId, authToken, currentGroceryListId, householdId };
     console.log(loginResponse);
@@ -66,8 +64,7 @@ export async function updateUserHouseholdID(id: number, name: string, password: 
         } else {
             success = await UserRepository.updateUserHouseholdID(id, householdId);
         }
-        const data = {success, householdId};
-        return data;
+        return {success, householdId};
     } catch (error) {
         console.error("User.service.ts: Failed to get household.");
         throw new Error("Failed to get household.");

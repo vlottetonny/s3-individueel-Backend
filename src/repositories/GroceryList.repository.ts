@@ -53,34 +53,16 @@ export async function updateGroceryListByID(id: number, groceryList: any): Promi
     }
 }
 
-export async function getCurrentGroceryListId(userId: number | null): Promise<number | null> {
-    if (userId === null) {
-        return null;
-    }
-    const user = await prisma.user_account.findUnique({
+export async function getCurrentGroceryListId(householdId?: number) {
+    const groceryList = await prisma.grocery_list.findFirst({
         where: {
-            id: userId
+            household_id: householdId,
+            is_bought: false
         },
         select: {
-            household: {
-                select: {
-                    grocery_lists: {
-                        where: {
-                            is_bought: false,
-                            household_id: {
-                                equals: userId
-                            }
-                        },
-                        select: {
-                            id: true
-                        }
-                    }
-                }
-            }
+            id: true, is_bought: true
         }
-    });
-
-    const groceryList = user?.household?.grocery_lists[0];
-    return groceryList?.id || null;
+    })
+    return groceryList?.id;
 }
 

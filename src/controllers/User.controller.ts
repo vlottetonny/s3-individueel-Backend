@@ -18,7 +18,6 @@ export const getUserByID = async (req: Request, res: Response) => {
 
 export const addUser = async (req: Request, res: Response) => {
     console.log(req.body);
-    console.log("addUser")
     try {
         const user = req.body;
         const signupResponse = await UserService.addUser(user);

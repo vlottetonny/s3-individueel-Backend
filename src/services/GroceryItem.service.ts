@@ -6,13 +6,14 @@ export async function getGroceryItemByID(id: number): Promise<grocery_item | nul
     return groceryItem;
 }
 
-export async function addGroceryItem(groceryItem: any): Promise<void>{
-    try {
-        await GroceryItemRepository.addGroceryItem(groceryItem);
-    } catch (error) {
-        console.error("GroceryItem.service.ts: Failed to add grocery item.");
-        throw new Error("Failed to add grocery item.");
-    }
+export async function addGroceryItem(groceryItem: any) {
+    const modifiedGroceryItem = {
+        ...groceryItem,
+        added_by_id: parseInt(groceryItem.added_by_id),
+        grocery_list_id: parseInt(groceryItem.grocery_list_id)
+    };
+
+    return await GroceryItemRepository.addGroceryItem(modifiedGroceryItem);
 }
 
 export async function deleteGroceryItemByID(id: number): Promise<void>{

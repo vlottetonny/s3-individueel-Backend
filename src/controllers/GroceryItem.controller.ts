@@ -17,10 +17,15 @@ export const getGroceryItemByID = async (req: Request, res: Response) => {
 }
 
 export const addGroceryItem = async (req: Request, res: Response) => {
+    console.log(req.body)
     try {
         const groceryItem = req.body;
-        await GroceryItemService.addGroceryItem(groceryItem);
-        res.status(201).send("Grocery item added successfully");
+        const groceryAddResponse = await GroceryItemService.addGroceryItem(groceryItem);
+        if (groceryAddResponse) {
+            res.status(200).json(groceryAddResponse);
+        } else {
+            res.status(500).send("Failed to add grocery item");
+        }
     } catch (error) {
         console.error(error);
         res.status(500).send("Internal server error");
