@@ -18,12 +18,19 @@ export const getHouseholdByID = async (req: Request, res: Response) => {
 
 export const addHousehold = async (req: Request, res: Response) => {
     try {
+        console.log(req.body);
         const household = req.body;
-        await HouseholdService.addHousehold(household);
-        res.status(201).send("Household added successfully");
+        const success = await HouseholdService.addHousehold(household);
+        if (success) {
+            console.log('Household added successfully.');
+            res.status(201).json({ success: true });
+        } else {
+            console.log('Failed to add household.');
+            res.status(500).json({ success: false, message: 'Failed to add household' });
+        }
     } catch (error) {
         console.error(error);
-        res.status(500).send("Internal server error");
+        res.status(500).json({ success: false, message: 'Internal server error' });
     }
 }
 
@@ -49,8 +56,6 @@ export const updateHouseholdByID = async (req: Request, res: Response) => {
         res.status(500).send("Internal server error");
     }
 }
-
-
 
 
 

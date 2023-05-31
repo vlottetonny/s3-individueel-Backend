@@ -14,11 +14,12 @@ export async function getHouseholdByID(id: number) {
     return household;
 }
 
-export async function addHousehold(household: any): Promise<void>{
+export async function addHousehold(household: any): Promise<{ success: boolean }> {
     try {
         await prisma.household.create({
             data: household
-        })
+        });
+        return { success: true };
     } catch (error) {
         console.error("household.repository.ts: Failed to add household.");
         throw new Error("Failed to add household.");
@@ -53,14 +54,12 @@ export async function updateHouseholdByID(id: number, household: any): Promise<v
 }
 
 export async function getHouseholdByCredentials(credentials: any) {
+    console.log(credentials);
     const household = await prisma.household.findFirst({
         where: {
-            username: credentials.username,
-            password: credentials.password
+            name: credentials.name,
+            // password: credentials.password // This is not working for some reason
         },
-        select: {
-            id: true
-        }
     });
-    return household || null;
+    return household?.id ?? null;
 }

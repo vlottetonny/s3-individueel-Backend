@@ -7,9 +7,10 @@ export async function getGroceryListByID(id: number): Promise<grocery_list | nul
     return groceryList;
 }
 
-export async function addGroceryList(groceryList: any): Promise<void>{
+export async function addGroceryList(groceryList: any){
     try {
-        await GroceryListRepository.addGroceryList(groceryList);
+        const groceryListId = await GroceryListRepository.addGroceryList(groceryList);
+        return groceryListId;
     } catch (error) {
         console.error("GroceryList.service.ts: Failed to add grocery list.");
         throw new Error("Failed to add grocery list.");

@@ -44,8 +44,10 @@ export async function loginUser(user: any): Promise<any | null> {
     const authToken = jwt.sign(payload, process.env.JWT_SECRET);
     const currentGroceryListId = await GroceryListRepository.getCurrentGroceryListId(userId);
     let householdId = null; // Declare householdId and initialize it with null
+    console.log("userId: " + userId)
     if (userId !== null) {
         householdId = await UserRepository.getHouseholdIDByUserID(userId);
+        console.log("householdId: " + householdId)
     }
     const loginResponse = { success, userId, authToken, currentGroceryListId, householdId };
     console.log(loginResponse);
@@ -54,15 +56,17 @@ export async function loginUser(user: any): Promise<any | null> {
 
 export async function updateUserHouseholdID(id: number, name: string, password: string): Promise<any>{
     try {
+        console.log(id + " " + name + " " + password)
         const credentials = {name, password};
-        const household = await HouseholdRepository.getHouseholdByCredentials(credentials);
+        const householdId = await HouseholdRepository.getHouseholdByCredentials(credentials);
+        console.log(householdId);
         let success: boolean;
-        if (household === null) {
+        if (householdId === null) {
             success = false;
         } else {
-            success = await UserRepository.updateUserHouseholdID(id, household.id);
+            success = await UserRepository.updateUserHouseholdID(id, householdId);
         }
-        const data = {success, household};
+        const data = {success, householdId};
         return data;
     } catch (error) {
         console.error("User.service.ts: Failed to get household.");

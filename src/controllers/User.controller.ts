@@ -18,6 +18,7 @@ export const getUserByID = async (req: Request, res: Response) => {
 
 export const addUser = async (req: Request, res: Response) => {
     console.log(req.body);
+    console.log("addUser")
     try {
         const user = req.body;
         const signupResponse = await UserService.addUser(user);
@@ -56,7 +57,6 @@ export const updateUserByID = async (req: Request, res: Response) => {
 }
 
 export const loginUser = async (req: Request, res: Response) => {
-    console.log(req.body)
     try {
         const user = req.body;
         const loginResponse = await UserService.loginUser(user);
@@ -74,11 +74,15 @@ export const loginUser = async (req: Request, res: Response) => {
 export const updateUserHouseholdID = async (req: Request, res: Response) => {
     console.log(req.body)
     try {
-        const userID = Number(req.params.id);
+        const userID = Number(req.body.id);
         const name = String(req.body.name);
         const password = String(req.body.password);
-        await UserService.updateUserHouseholdID(userID, name, password);
-        res.status(200).send("User householdID updated successfully");
+        const response = await UserService.updateUserHouseholdID(userID, name, password);
+        if (response) {
+            res.status(200).json(response);
+        } else {
+            res.status(404).send("User not found");
+        }
     } catch (error) {
         console.error(error);
         res.status(500).send("Internal server error");

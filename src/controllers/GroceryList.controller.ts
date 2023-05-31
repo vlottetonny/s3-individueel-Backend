@@ -19,8 +19,12 @@ export const getGroceryListByID = async (req: Request, res: Response) => {
 export const addGroceryList = async (req: Request, res: Response) => {
     try {
         const groceryList = req.body;
-        await GroceryListService.addGroceryList(groceryList);
-        res.status(201).send("Grocery-list added successfully");
+        const groceryListID = await GroceryListService.addGroceryList(groceryList);
+        if (groceryListID) {
+            res.status(200).json(groceryListID);
+        } else {
+            res.status(500).send("Failed to add grocery-list");
+        }
     } catch (error) {
         console.error(error);
         res.status(500).send("Internal server error");

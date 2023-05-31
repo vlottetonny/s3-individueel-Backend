@@ -14,11 +14,12 @@ export async function getGroceryListByID(id: number) {
     return groceryList;
 }
 
-export async function addGroceryList(groceryList: any): Promise<void>{
+export async function addGroceryList(groceryList: any){
     try {
-        await prisma.grocery_list.create({
+        const createdGroceryList = await prisma.grocery_list.create({
             data: groceryList
         })
+        return createdGroceryList.id;
     } catch (error) {
         console.error("groceryList.repository.ts: Failed to add grocery list.");
         throw new Error("Failed to add grocery list.");

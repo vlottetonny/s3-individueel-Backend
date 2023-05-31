@@ -6,9 +6,11 @@ export async function getHouseholdByID(id: number): Promise<household | null> {
     return household;
 }
 
-export async function addHousehold(household: any): Promise<void>{
+export async function addHousehold(household: any): Promise<boolean> {
     try {
+        console.log(household);
         await HouseholdRepository.addHousehold(household);
+        return true;
     } catch (error) {
         console.error("Household.service.ts: Failed to add household.");
         throw new Error("Failed to add household.");
