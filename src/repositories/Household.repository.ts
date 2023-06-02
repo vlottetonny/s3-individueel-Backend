@@ -39,7 +39,7 @@ export async function deleteHouseholdByID(id: number): Promise<void>{
     }
 }
 
-export async function updateHouseholdByID(id: number, household: any): Promise<void>{
+export async function updateHouseholdByID(id: number, household: any){
     try {
         await prisma.household.update({
             where: {

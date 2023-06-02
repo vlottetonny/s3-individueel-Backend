@@ -8,6 +8,7 @@ export async function getUserByID( id: number ) {
             id: id
         }
     })
+    console.log(user);
     return user;
 }
 
@@ -33,7 +34,7 @@ export async function addUser( user: any ){
     return true;
 }
 
-export async function deleteUserByID( id: number ): Promise<void>{
+export async function deleteUserByID( id: number ){
     try {
         await prisma.user_account.delete({
             where: {
@@ -44,7 +45,9 @@ export async function deleteUserByID( id: number ): Promise<void>{
     catch (error) {
         console.error("user.repository.ts: Failed to delete user.");
         throw new Error("Failed to delete user.");
+        return false;
     }
+    return true;
 }
 
 export async function updateUserByID( id: number, user: any ): Promise<void>{
