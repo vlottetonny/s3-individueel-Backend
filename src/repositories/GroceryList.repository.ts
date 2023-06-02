@@ -26,7 +26,7 @@ export async function addGroceryList(groceryList: any){
     }
 }
 
-export async function deleteGroceryListByID(id: number): Promise<void>{
+export async function deleteGroceryListByID(id: number){
     try {
         await prisma.grocery_list.delete({
             where: {

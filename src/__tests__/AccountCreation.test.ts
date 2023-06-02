@@ -1,13 +1,13 @@
 import { PrismaClient } from '@prisma/client';
 import { getUserByID, getHouseholdIDByUserID, deleteUserByID, loginUser, addUser } from '../repositories/User.repository';
-import {addHousehold, getHouseholdByCredentials} from "../repositories/Household.repository";
+import { addHousehold, getHouseholdByCredentials } from "../repositories/Household.repository";
 
 const prisma = new PrismaClient();
 
 let testUserId: number | null = null;
 let testHouseholdId: number | null = null;
 
-describe('Account creation', () => {
+describe('Account Creation', () => {
     describe('addUser', () => {
         it('should add a user', async () => {
             const user = {
