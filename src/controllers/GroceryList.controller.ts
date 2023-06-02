@@ -53,3 +53,17 @@ export const updateGroceryListByID = async (req: Request, res: Response) => {
         res.status(500).send("Internal server error");
     }
 }
+
+export const getCurrentGroceryListByID = async (req: Request, res: Response) => {
+    try {
+        const householdId = Number(req.params.id);
+        const groceryList = await GroceryListService.getCurrentGroceryListId(householdId);
+        if (groceryList) {
+            res.status(200).json(groceryList);
+        } else {
+            res.status(404).send("Grocery-list not found");
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}

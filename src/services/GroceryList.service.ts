@@ -34,3 +34,8 @@ export async function updateGroceryListByID(id: number, groceryList: any): Promi
         throw new Error("Failed to update grocery list.");
     }
 }
+
+export async function getCurrentGroceryListId(householdId?: number) {
+    const groceryList = await GroceryListRepository.getCurrentGroceryListId(householdId);
+    return groceryList;
+}
